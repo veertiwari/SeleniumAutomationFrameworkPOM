@@ -2,7 +2,7 @@ package basepackage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -11,22 +11,24 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-public class baseclass  {
-	
+public class baseclass {
+
 
 BrowserFactory bf=new BrowserFactory();
+public static WebDriver driver=null;
 
-@BeforeMethod
-public void initializeDriver() {
+
+public WebDriver initializeDriver() {
 DriverFactory.getInstance().setDriver(bf.createbrowserInstance("chrome"));
-DriverFactory.getInstance().getDriver().manage().window().maximize();
+ driver =DriverFactory.getInstance().getDriver();
+driver.manage().window().maximize();
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+return driver;
 
-DriverFactory.getInstance().getDriver().manage().timeouts().implicitlyWait(15,TimeUnit.SECONDS);
 
 
 }
 	
-
 public static String getscreenshot(WebDriver driver,String testcasename) throws IOException {
 	TakesScreenshot scn=(TakesScreenshot)driver;
 	File sourceFile=scn.getScreenshotAs(OutputType.FILE);

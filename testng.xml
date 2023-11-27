@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite"  parallel="classes" thread-count="3">
-<listeners>
-<listener class-name="ExtentReporter.ListenerClassTest"/>
-</listeners>
-  <test thread-count="5" name="Test">
+<suite name="Failed suite " parallel="methods">
+  <listeners>
+    <listener class-name="ExtentReporter.Listenerclass"/>
+  </listeners>
+  <test thread-count="1" name="Test" >
     <classes>
-      <class name="testscripts.testjava3"/>
-      <class name="testscripts.testjava2"/>
-      <class name="testscripts.testjava1"/>
+         <class name="testscripts.test"> </class> 
+         <class name="testscripts.testjava1"> </class> 
+         <class name="testscripts.testjava2"> </class> 
+	    <class name="testscripts.testjava3"> </class> 
+       
     </classes>
-  </test> <!-- Test -->
-</suite> <!-- Suite -->
+  </test> 
+</suite> 

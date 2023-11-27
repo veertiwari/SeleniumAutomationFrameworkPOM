@@ -1,50 +1,55 @@
 package ExtentReporter;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.aventstack.extentreports.model.Media;
 
+import basepackage.DriverFactory;
+import basepackage.ExtentReportManager;
+import basepackage.ExtentTestManager;
 import basepackage.baseclass;
 
+
 public class Listenerclass extends baseclass implements ITestListener {
-
- ExtentReports reports=extentReportGenerator();
-
-	
-	
-	
+	static ExtentReports report;
+	ExtentTest test;
+	@SuppressWarnings("static-access")
 	@Override
 	public void onTestStart(ITestResult result) {
-		logger=reports.createTest(result.getMethod().getMethodName());
-		test.set(logger);
-		
-		
-	}
+		test=report.createTest(result.getMethod().getMethodName());
+		ExtentTestManager.getInstance().setExtent(test);
+		}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		test.get().log(Status.PASS, "test passed");
-	driver=(WebDriver) result.getTestContext().getAttribute("WebDriver");
+		ExtentTestManager.getInstance().getExetent().log(Status.PASS,MarkupHelper.createLabel("test passed", ExtentColor.GREEN));
 		
 	}
 
 	@Override
 	public void  onTestFailure(ITestResult result) {
-		WebDriver driverobj = null;
-		driverobj=(WebDriver) result.getTestContext().getAttribute("WebDriver");
-		try {
-			 test.get().log(Status.FAIL, result.getThrowable());
-			 test.get().addScreenCaptureFromPath(getscreenshot(driverobj, result.getMethod().getMethodName()),result.getMethod().getMethodName());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		driverobj.close();
+		ExtentTestManager.getInstance().getExetent().log(Status.FAIL, MarkupHelper.createLabel("Test Step Failed", ExtentColor.RED));
+		
+			try {
+				ExtentTestManager.getInstance().getExetent().addScreenCaptureFromPath(getscreenshot(driver, result.getMethod().getMethodName()),"" );
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			
+		tearDown();
 
 		
 	}
@@ -63,13 +68,16 @@ public class Listenerclass extends baseclass implements ITestListener {
 
 	@Override
 	public void onStart(ITestContext context) {
-		context.setAttribute("WebDriver", driver);
+		report=ExtentReportManager.extentReportGenerator();
 		
 	}
 
 	@Override
 	public void onFinish(ITestContext context) {
-		reports.flush();
+		
+	report.flush();
+	ExtentTestManager.getInstance().removeExtent();
+		
 		
 		
 	}

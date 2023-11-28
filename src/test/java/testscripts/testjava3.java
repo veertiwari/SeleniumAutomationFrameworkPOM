@@ -9,27 +9,30 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 
+import ExtentReporter.ExtentTestManager;
 import basepackage.DriverFactory;
-import basepackage.ExtentTestManager;
 import basepackage.baseclass;
+import net.bytebuddy.build.Plugin.Factory.UsingReflection.Priority;
 
 public class testjava3 extends baseclass {
-	public static ExtentTest logger;
+	
 	public static WebDriver driver;
-	@Test
+	
+	
+	@Test(priority=2)
 	public void testexecute3() throws InterruptedException {
-		
-		driver =initializeDriver();
-		driver.get("https://www.flipkart.com/");
+		driver=InintializeDriver();
+		System.out.println(Thread.currentThread().getName()+ " : where test are executing");
+		System.out.println(Thread.currentThread().getId()+ " : where test are executing");
+		driver.get("https://in.tradingview.com/");
          ExtentTestManager.getInstance().getExetent().log(Status.INFO, MarkupHelper.createLabel("test step 1", ExtentColor.BLUE));		
          ExtentTestManager.getInstance().getExetent().log(Status.INFO, "flipkart3 website opened successfully");
-		  driver.getTitle();
-		  ExtentTestManager.getInstance().getExetent().log(Status.INFO, driver.getTitle() );
+		 driver.getTitle();
+		 ExtentTestManager.getInstance().getExetent().log(Status.INFO, driver.getTitle() );
 		ExtentTestManager.getInstance().getExetent().log(Status.INFO, "flipkart3 tittle caputured successfully");
-		Assert.assertTrue(true);
+		Assert.assertTrue(false);
 		ExtentTestManager.getInstance().getExetent().log(Status.INFO,"first4 test executed");
-	
-//		ExtentTestManager.getIntance().getExetent().log(Status.INFO, "flipkart test 2 Title captured");
-		System.out.println("foruth test executed");
+	    System.out.println("foruth test executed");
+		
 	}
 }

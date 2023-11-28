@@ -1,15 +1,18 @@
-package basepackage;
+package ExtentReporter;
+
+import java.io.File;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
 public class ExtentReportManager{
-	public static ExtentReports extent;
-public static ExtentReports extentReportGenerator() {
-	
-		String reportPath=System.getProperty("user.dir")+"\\ExtentReport\\extentreport.html";
-		ExtentSparkReporter reporter=new ExtentSparkReporter(reportPath);
+
+	// Creating Spark Report 
+
+	static ExtentReports extent;
+	public static  ExtentReports generateReport() {
+		ExtentSparkReporter reporter=new ExtentSparkReporter("target/sparkreport.html");
 		reporter.config().setReportName("Automation Report");
 		reporter.config().setDocumentTitle("Test Result");
 		reporter.config().setTheme(Theme.DARK);
@@ -20,6 +23,7 @@ public static ExtentReports extentReportGenerator() {
 		extent.setSystemInfo("Browser","chrome");
 		extent.setSystemInfo("Environment", "UAT");
 		return extent;
-}
+	}
 
 }
+

@@ -71,12 +71,18 @@ public void reportStatus(ITestResult result) {
 	if(!result.isSuccess()) {
 		ExtentTestManager.getInstance().getExetent().log(Status.FAIL, MarkupHelper.createLabel(result.getMethod().getMethodName(), ExtentColor.RED));	
 		
-	}
+		try {
+			ExtentTestManager.getInstance().getExetent().addScreenCaptureFromPath(getscreenshot(DriverFactory.getInstance().getDriver(),result.getMethod().getMethodName()), result.getThrowable().toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	report.flush();
 	DriverFactory.getInstance().closeDriverInstance();
 	
 	
+}
 }
 
 

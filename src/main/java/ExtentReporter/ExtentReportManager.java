@@ -5,6 +5,7 @@ import java.io.File;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import com.aventstack.extentreports.reporter.configuration.ViewName;
 
 public class ExtentReportManager{
 
@@ -12,7 +13,7 @@ public class ExtentReportManager{
 
 	static ExtentReports extent;
 	public static  ExtentReports generateReport() {
-		ExtentSparkReporter reporter=new ExtentSparkReporter("target/sparkreport.html");
+		ExtentSparkReporter reporter=new ExtentSparkReporter("target/sparkreport.html").viewConfigurer().viewOrder().as(new ViewName[]{ViewName.DASHBOARD,ViewName.CATEGORY,ViewName.TEST}).apply();
 		reporter.config().setReportName("Automation Report");
 		reporter.config().setDocumentTitle("Test Result");
 		reporter.config().setTheme(Theme.DARK);
